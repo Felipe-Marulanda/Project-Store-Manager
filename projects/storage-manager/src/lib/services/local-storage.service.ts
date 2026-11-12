@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { STORAGE_KEY_PREFIX, StorageError } from '../models/storage-manager.model';
+import { StorageError } from '../models/storage-error.model';
+import { STORAGE_KEY_PREFIX } from '../models/storage-key-prefix.model';
 import { toStorageError } from '../internal/storage-error.util';
 
 @Injectable({ providedIn: 'root' })

@@ -1,4 +1,4 @@
-import { StorageError } from '../models/storage-manager.model';
+import { StorageError } from '../models/storage-error.model';
 
 export function toStorageError(operation: string, error: unknown): StorageError {
   if (error instanceof StorageError) {

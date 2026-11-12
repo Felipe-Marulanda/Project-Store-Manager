@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { toStorageError } from '../internal/storage-error.util';
-import { CachePutValue, StorageError } from '../models/storage-manager.model';
+import { CachePutValue } from '../models/cache-put-value.model';
+import { StorageError } from '../models/storage-error.model';
 
 @Injectable({ providedIn: 'root' })
 export class CacheStorageService {

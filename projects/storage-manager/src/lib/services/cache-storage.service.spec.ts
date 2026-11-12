@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StorageError } from '../models/storage-manager.model';
+import { StorageError } from '../models/storage-error.model';
 import { CacheStorageService } from './cache-storage.service';
 
 function requestKey(request: RequestInfo | URL): string {

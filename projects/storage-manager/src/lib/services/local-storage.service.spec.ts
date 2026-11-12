@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { STORAGE_KEY_PREFIX, StorageError } from '../models/storage-manager.model';
+import { StorageError } from '../models/storage-error.model';
+import { STORAGE_KEY_PREFIX } from '../models/storage-key-prefix.model';
 import { LocalStorageService } from './local-storage.service';
 
 function createStorageMock() {
