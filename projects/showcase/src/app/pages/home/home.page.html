@@ -1,0 +1,82 @@
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Storage toolkit <span class="hero-slash">/</span> 02 APIs</p>
+    <h1>Datos de navegador,<br /><span>bajo control.</span></h1>
+    <p class="hero-copy">
+      Una forma clara de explorar y gestionar el almacenamiento local y las respuestas en caché de
+      tu navegador.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-lime" routerLink="/local-storage"
+        >Probar LocalStorage <span aria-hidden="true">→</span></a
+      >
+      <a class="text-link" routerLink="/cache-storage">Explorar Cache Storage</a>
+    </div>
+    <div class="hero-meta">
+      <span class="meta-mark" aria-hidden="true">✓</span>
+      <span>Datos guardados en este navegador</span>
+      <span class="meta-divider"></span>
+      <span>Sin cuenta ni servidor</span>
+    </div>
+  </div>
+
+  <aside class="hero-visual" aria-label="Vista conceptual de los almacenes del navegador">
+    <div class="visual-topline">
+      <span>Browser storage</span>
+      <span class="visual-status"><i></i> local environment</span>
+    </div>
+    <div class="visual-center">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <div class="core-mark" aria-hidden="true"><span>S</span></div>
+      <div class="orbit-node node-top"><span class="node-dot"></span><span>key / value</span></div>
+      <div class="orbit-node node-right"><span class="node-dot"></span><span>responses</span></div>
+      <div class="orbit-node node-bottom">
+        <span class="node-dot"></span><span>browser APIs</span>
+      </div>
+    </div>
+    <div class="visual-bottom">
+      <span>Storage layer</span>
+      <span class="visual-code">01 <b>/</b> 02</span>
+    </div>
+  </aside>
+</section>
+
+<section class="capabilities">
+  <div class="section-intro">
+    <div>
+      <p class="eyebrow">Elige un almacén</p>
+      <h2>Dos herramientas,<br />un mismo espacio.</h2>
+    </div>
+    <p>
+      Prueba operaciones reales desde una interfaz sencilla. Los cambios se guardan en las APIs de
+      almacenamiento del navegador.
+    </p>
+  </div>
+
+  <div class="capability-grid">
+    <a class="capability-card" routerLink="/local-storage">
+      <div class="capability-icon icon-local" aria-hidden="true"><span>&#123; &#125;</span></div>
+      <div class="capability-number">01 <span>KEY / VALUE</span></div>
+      <h3>LocalStorage</h3>
+      <p>Guarda valores y objetos JSON que permanecen disponibles entre sesiones.</p>
+      <span class="card-link">Gestionar datos <b aria-hidden="true">↗</b></span>
+    </a>
+    <a class="capability-card" routerLink="/cache-storage">
+      <div class="capability-icon icon-cache" aria-hidden="true"><span>▤</span></div>
+      <div class="capability-number">02 <span>REQUEST / RESPONSE</span></div>
+      <h3>Cache Storage</h3>
+      <p>Almacena respuestas vinculadas a URLs para recuperarlas cuando quieras.</p>
+      <span class="card-link">Explorar recursos <b aria-hidden="true">↗</b></span>
+    </a>
+  </div>
+</section>
+
+<section class="privacy-note">
+  <span class="privacy-mark" aria-hidden="true">i</span>
+  <p>
+    <strong>Tu navegador, tu espacio.</strong>
+    El contenido de este showcase no se envía a ningún servidor. Borra tus almacenes desde cada
+    sección cuando termines.
+  </p>
+</section>

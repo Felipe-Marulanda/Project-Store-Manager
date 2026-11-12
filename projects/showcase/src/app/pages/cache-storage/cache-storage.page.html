@@ -1,0 +1,183 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">02 <span>/</span> Request / response</p>
+    <h1>Cache Storage</h1>
+    <p>Guarda y recupera respuestas asociadas a URLs desde la API de caché del navegador.</p>
+  </div>
+  <span class="api-badge"><i></i> Cache API</span>
+</section>
+
+@if (feedback; as message) {
+  <div
+    class="notice"
+    [class.notice-success]="message.kind === 'success'"
+    [class.notice-error]="message.kind === 'error'"
+    role="status"
+    aria-live="polite"
+  >
+    <span aria-hidden="true">{{ message.kind === 'success' ? '✓' : '!' }}</span>
+    <span>{{ message.message }}</span>
+  </div>
+}
+
+<div class="cache-layout">
+  <aside class="surface-card cache-sidebar" aria-labelledby="cache-list-title">
+    <div class="card-heading">
+      <div>
+        <p class="eyebrow">Almacenes</p>
+        <h2 id="cache-list-title">
+          Cachés <span class="count-pill">{{ cacheNames.length }}</span>
+        </h2>
+      </div>
+    </div>
+
+    <form class="create-form" (ngSubmit)="createCache()">
+      <label class="field-label" for="new-cache-name">Crear caché</label>
+      <div class="inline-field">
+        <input
+          id="new-cache-name"
+          class="text-input"
+          name="newCacheName"
+          [(ngModel)]="newCacheName"
+          placeholder="nombre-de-cache"
+          autocomplete="off"
+        />
+        <button class="button" type="submit" aria-label="Crear caché">+</button>
+      </div>
+    </form>
+
+    @if (cacheNames.length > 0) {
+      <div class="cache-list" aria-label="Cachés disponibles">
+        @for (name of cacheNames; track name) {
+          <button
+            class="cache-choice"
+            type="button"
+            [class.selected]="cacheName === name"
+            (click)="selectCache(name)"
+          >
+            <span class="cache-choice-icon" aria-hidden="true">▤</span>
+            <span class="cache-choice-name">{{ name }}</span>
+            <span class="cache-choice-arrow" aria-hidden="true">↗</span>
+          </button>
+        }
+      </div>
+    } @else {
+      <div class="sidebar-empty">
+        <span aria-hidden="true">▤</span>
+        <p>Aún no hay cachés.<br />Crea la primera para empezar.</p>
+      </div>
+    }
+
+    <div class="sidebar-note">
+      <span aria-hidden="true">i</span>
+      <p>Cache Storage puede no estar disponible en todos los contextos del navegador.</p>
+    </div>
+  </aside>
+
+  <section class="surface-card resource-panel" aria-labelledby="resource-panel-title">
+    <div class="card-heading resource-heading">
+      <div>
+        <p class="eyebrow">Caché seleccionada</p>
+        <h2 id="resource-panel-title" class="mono">{{ cacheName }}</h2>
+      </div>
+      <button
+        class="button button-danger icon-button"
+        type="button"
+        (click)="deleteCache()"
+        [disabled]="!cacheNames.includes(cacheName)"
+      >
+        Eliminar caché
+      </button>
+    </div>
+
+    <form class="resource-form" (ngSubmit)="saveResource()">
+      <label class="field-label" for="resource-url">URL del recurso</label>
+      <input
+        id="resource-url"
+        class="text-input mono"
+        type="url"
+        name="resourceUrl"
+        [(ngModel)]="resourceUrl"
+        placeholder="https://ejemplo.com/api/datos"
+        autocomplete="url"
+      />
+
+      <label class="field-label content-label" for="resource-content">Contenido para guardar</label>
+      <textarea
+        id="resource-content"
+        class="text-area mono"
+        name="resourceContent"
+        [(ngModel)]="resourceContent"
+        placeholder="Escribe el contenido de texto que se asociará a esta URL…"
+      ></textarea>
+
+      <div class="resource-actions">
+        <button class="button" type="submit">
+          Guardar contenido <span aria-hidden="true">→</span>
+        </button>
+        <button class="button button-secondary" type="button" (click)="fetchResource()">
+          Fetch URL y guardar
+        </button>
+        <button class="button button-secondary" type="button" (click)="consultResource()">
+          Consultar URL
+        </button>
+        <button class="button button-danger" type="button" (click)="deleteResource()">
+          Eliminar recurso
+        </button>
+      </div>
+    </form>
+
+    @if (responseText !== null) {
+      <div class="response-result">
+        <div class="response-heading">
+          <span>Respuesta en caché</span>
+          <span class="response-code"
+            >{{ responseStatus }} <i>{{ responseStatusText }}</i></span
+          >
+        </div>
+        <pre class="mono">{{ responseText }}</pre>
+      </div>
+    }
+
+    <div class="resource-list-heading">
+      <div>
+        <p class="eyebrow">Contenido</p>
+        <h3>
+          Recursos guardados <span class="count-pill">{{ resources.length }}</span>
+        </h3>
+      </div>
+      <span class="resource-caption">Las URLs identifican cada respuesta</span>
+    </div>
+
+    @if (resources.length > 0) {
+      <ul class="resource-list">
+        @for (url of resources; track url) {
+          <li>
+            <span class="resource-indicator" aria-hidden="true"></span>
+            <span class="resource-url mono" [title]="url">{{ url }}</span>
+            <button
+              class="button button-secondary icon-button"
+              type="button"
+              (click)="consultResource(url)"
+            >
+              Ver
+            </button>
+            <button
+              class="button button-danger icon-button"
+              type="button"
+              (click)="deleteResource(url)"
+            >
+              Quitar
+            </button>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="empty-state resource-empty">
+        <span class="empty-cache-icon" aria-hidden="true">↗</span>
+        <strong>Esta caché está vacía</strong>
+        <p>Guarda contenido o descarga una URL para ver aquí sus recursos.</p>
+      </div>
+    }
+  </section>
+</div>
