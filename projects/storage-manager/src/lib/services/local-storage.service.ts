@@ -1,25 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
-import {
-  STORAGE_KEY_PREFIX,
-  StorageError,
-} from '../models/storage-manager.model';
+import { STORAGE_KEY_PREFIX, StorageError } from '../models/storage-manager.model';
 import { toStorageError } from '../internal/storage-error.util';
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
-  constructor(
-    @Inject(STORAGE_KEY_PREFIX) private readonly keyPrefix: string,
-  ) {}
+  constructor(@Inject(STORAGE_KEY_PREFIX) private readonly keyPrefix: string) {}
 
   set<T>(key: string, value: T): void {
     try {
       const serialized = JSON.stringify(value);
       if (serialized === undefined) {
-        throw new StorageError(
-          'The value cannot be serialized as JSON.',
-          'invalid-data',
-          'set',
-        );
+        throw new StorageError('The value cannot be serialized as JSON.', 'invalid-data', 'set');
       }
 
       this.storage('set').setItem(this.prefixedKey(key), serialized);
@@ -54,20 +45,12 @@ export class LocalStorageService {
       const storage = this.storage('update');
       const prefixedKey = this.prefixedKey(key);
       if (storage.getItem(prefixedKey) === null) {
-        throw new StorageError(
-          `Storage key "${key}" does not exist.`,
-          'not-found',
-          'update',
-        );
+        throw new StorageError(`Storage key "${key}" does not exist.`, 'not-found', 'update');
       }
 
       const serialized = JSON.stringify(value);
       if (serialized === undefined) {
-        throw new StorageError(
-          'The value cannot be serialized as JSON.',
-          'invalid-data',
-          'update',
-        );
+        throw new StorageError('The value cannot be serialized as JSON.', 'invalid-data', 'update');
       }
       storage.setItem(prefixedKey, serialized);
     } catch (error) {

@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test storage-manager --watch=false",
+    "test:coverage": "ng test storage-manager --coverage --watch=false",
+    "test:showcase": "ng test showcase --watch=false"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
@@ -24,6 +26,7 @@
     "@angular/build": "^22.2.7",
     "@angular/cli": "^22.2.7",
     "@angular/compiler-cli": "^22.2.0",
+    "@vitest/coverage-v8": "^5.1.0",
     "jsdom": "^30.0.0",
     "ng-packagr": "^22.2.0",
     "prettier": "^3.8.1",

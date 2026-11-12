@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { toStorageError } from '../internal/storage-error.util';
-import {
-  CachePutValue,
-  StorageError,
-} from '../models/storage-manager.model';
+import { CachePutValue, StorageError } from '../models/storage-manager.model';
 
 @Injectable({ providedIn: 'root' })
 export class CacheStorageService {
@@ -29,19 +26,13 @@ export class CacheStorageService {
 
   async hasCache(cacheName: string): Promise<boolean> {
     try {
-      return (await this.cacheStorage('check cache').keys()).includes(
-        cacheName,
-      );
+      return (await this.cacheStorage('check cache').keys()).includes(cacheName);
     } catch (error) {
       throw toStorageError('check cache', error);
     }
   }
 
-  async put(
-    cacheName: string,
-    request: string,
-    value: CachePutValue,
-  ): Promise<void> {
+  async put(cacheName: string, request: string, value: CachePutValue): Promise<void> {
     try {
       const cache = await this.cacheStorage('put').open(cacheName);
       await cache.put(request, this.toResponse(value));
