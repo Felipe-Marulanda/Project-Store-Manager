@@ -6,7 +6,7 @@ No requiere backend.
 
 ## Aplicación
 
-- Showcase: <https://felipe-marulanda.github.io/Project-Store-Manager/>
+- URL de Pages configurada para el showcase: <https://felipe-marulanda.github.io/Project-Store-Manager/>
 - Repositorio: <https://github.com/Felipe-Marulanda/Project-Store-Manager>
 
 ## Instalación y comandos
