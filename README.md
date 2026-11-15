@@ -1,82 +1,132 @@
-# Storage Manager
+ ## Storage Manager Project
 
-Librería Angular para trabajar con `LocalStorage` y `Cache Storage` mediante
-servicios tipados, con un Showcase interactivo que demuestra sus operaciones
-directamente en el navegador. No requiere backend.
+Librería Angular para guardar información en el navegador sin usar directamente las API nativas de LocalStorage y Cache Storage. Incluye una aplicación Showcase que muestra su funcionamiento.
 
-Proyecto del curso de Arquitectura de Software (UCEVA).
+Proyecto de la asignatura Arquitectura de Software, Ingeniería de Sistemas, Facultad de Ingeniería, Unidad Central del Valle del Cauca (UCEVA), Tuluá, Valle del Cauca.
+
+## Integrantes
+
+- Santiago Santacruz Cuellar
+- Juan Felipe Castro Marulanda
+
+Docente: Jesús David Mejía Vergara
 
 ## Enlaces
 
-- Paquete en NPM: <https://www.npmjs.com/package/ngx-browser-storage-manager>
-- Showcase en línea: <https://felipe-marulanda.github.io/Project-Store-Manager/>
-- Repositorio: <https://github.com/Felipe-Marulanda/Project-Store-Manager>
-- Guía de uso de la librería: [projects/storage-manager/README.md](./projects/storage-manager/README.md)
+- Repositorio: https://github.com/Felipe-Marulanda/Project-Store-Manager
+- Showcase en ejecución: https://felipe-marulanda.github.io/Project-Store-Manager/
 
-## Uso rápido
+## Estructura del repositorio
 
-```bash
-npm install ngx-browser-storage-manager
-```
+- `projects/storage-manager`: código fuente de la librería (paquete `ngx-browser-storage-manager`).
+- `projects/showcase`: aplicación Angular independiente que usa la librería a través de su API pública.
+
+## La librería
+
+La API pública está formada por dos servicios, un tipo de error y un token de configuración.
+
+`LocalStorageService` guarda, consulta, actualiza, elimina, lista y limpia valores en LocalStorage. Los valores se serializan a JSON, por lo que se pueden guardar primitivos, objetos y arreglos. El prefijo de las claves se puede configurar con el token `STORAGE_KEY_PREFIX`.
+
+`CacheStorageService` crea, lista y elimina cachés, y guarda, consulta y elimina recursos o respuestas HTTP dentro de ellas.
+
+Todos los fallos se reportan con un único tipo de error, `StorageError`, que incluye un código y la operación que falló. Los códigos posibles son `invalid-data`, `not-found`, `quota-exceeded`, `unavailable` y `operation-failed`.
+
+## Ejemplo de uso
 
 ```ts
-import { inject } from '@angular/core';
-import { LocalStorageService } from 'ngx-browser-storage-manager';
+import { Component, inject } from '@angular/core';
+import {
+  CacheStorageService,
+  LocalStorageService,
+  StorageError,
+} from 'storage-manager';
 
-const storage = inject(LocalStorageService);
-storage.set('tema', 'oscuro');
-storage.get<string>('tema'); // 'oscuro'
+@Component({
+  selector: 'app-ejemplo',
+  template: '',
+})
+export class EjemploComponent {
+  private readonly local = inject(LocalStorageService);
+  private readonly cache = inject(CacheStorageService);
+
+  async probar(): Promise<void> {
+    this.local.set('usuario', { nombre: 'Ana' });
+    console.log(this.local.get('usuario'));
+
+    try {
+      this.local.update('no-existe', 1);
+    } catch (error) {
+      if (error instanceof StorageError) {
+        console.log(error.code); // not-found
+      }
+    }
+
+    await this.cache.put('c1', 'https://x.test/a', { id: 1 });
+    const respuesta = await this.cache.get('c1', 'https://x.test/a');
+    console.log(await respuesta?.json());
+  }
+}
 ```
 
-La guía completa (configuración del prefijo, todos los métodos de
-`LocalStorageService` y `CacheStorageService`, ejemplos y manejo de errores)
-está en el [README de la librería](./projects/storage-manager/README.md).
+Dentro del repositorio la librería se importa con el alias `storage-manager`, definido en `tsconfig.json`. El nombre del paquete es `ngx-browser-storage-manager`.
 
-## Desarrollo
+## Requisitos
 
-Requiere Node.js 24 o superior compatible con Angular 22 y npm.
+- Node.js y npm
+- Angular CLI
 
-```bash
-npm ci
+## Instalación de dependencias
+
+```
+npm install
+```
+
+## Comandos
+
+Construir la librería (la salida queda en `dist/storage-manager`):
+
+```
+npm run build -- --project storage-manager
+```
+
+Revisar el contenido del paquete antes de publicarlo:
+
+```
+cd dist/storage-manager
+npm pack --dry-run
+```
+
+Ejecutar el Showcase en local (http://localhost:4200):
+
+```
 npm start -- --project showcase
 ```
 
-| Comando                                      | Descripción                                         |
-| -------------------------------------------- | --------------------------------------------------- |
-| `npm start -- --project showcase`            | Ejecuta el Showcase                                 |
-| `npm test`                                   | Prueba la librería                                  |
-| `npm run test:coverage`                      | Prueba la librería con reporte de cobertura         |
-| `npm run test:showcase`                      | Prueba el Showcase                                  |
-| `npm run build -- --project storage-manager` | Construye la librería en `dist/storage-manager`     |
-| `npm run build -- --project showcase`        | Construye el Showcase                               |
-| `npm run docs`                               | Genera la documentación técnica en `documentation/` |
-| `npm run docs:serve`                         | Genera y sirve la documentación                     |
-| `npm run docs:coverage`                      | Falla si la documentación no está al 100 %          |
+Construir el Showcase y ejecutar sus pruebas:
 
-## Documentación técnica
-
-La documentación se genera con [Compodoc](https://compodoc.app/) a partir de los
-comentarios TSDoc. La carpeta `documentation/` no se versiona porque es salida
-generada: ejecuta `npm run docs:serve` para verla.
-
-## Estructura
-
-```text
-projects/
-  storage-manager/  Librería de almacenamiento del navegador (se publica en NPM)
-  showcase/         Aplicación Angular de demostración (consume el paquete de NPM)
-.github/workflows/  Build, publicación y verificación de Pages
+```
+npm run build -- --project showcase
+npm run test:showcase
 ```
 
-El workflow construye el proyecto `showcase` con base `/Project-Store-Manager/`,
-copia `index.html` como `404.html` y verifica la respuesta HTTP 200 después del
-despliegue.
+Ejecutar las pruebas de la librería con cobertura:
 
-## Convención de commits
+```
+npm run test:coverage
+```
 
-Se usa Conventional Commits: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`,
-`ci`, `build` y `style`. Mantén cada commit pequeño y enfocado.
+Generar la documentación técnica:
 
-## Licencia
+```
+npm run docs
+```
 
-[MIT](./LICENSE)
+## Pruebas y documentación
+
+La librería tiene 27 pruebas unitarias que cubren escenarios exitosos, errores y casos excepcionales de ambos servicios, con 100 % de cobertura.
+
+La documentación técnica se genera con Compodoc a partir de comentarios TSDoc, con 100 % de cobertura de documentación. La carpeta `documentation/` no se versiona porque es salida de build; se reproduce con `npm run docs`.
+
+## Control de versiones
+
+Los commits siguen la convención Conventional Commits (`feat`, `docs`, `build`, `test`, `ci`, entre otros). El Showcase se despliega en GitHub Pages mediante un workflow de GitHub Actions.
