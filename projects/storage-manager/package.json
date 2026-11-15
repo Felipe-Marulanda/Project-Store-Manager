@@ -1,6 +1,32 @@
 {
-  "name": "storage-manager",
-  "version": "0.0.1",
+  "name": "ngx-browser-storage-manager",
+  "version": "1.0.0",
+  "description": "Servicios Angular tipados para gestionar LocalStorage y Cache Storage con una API simple y errores consistentes.",
+  "keywords": [
+    "angular",
+    "localstorage",
+    "cache-storage",
+    "storage",
+    "service",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Santiago Santacruz Cuellar",
+  "homepage": "https://github.com/Felipe-Marulanda/Project-Store-Manager#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Felipe-Marulanda/Project-Store-Manager.git",
+    "directory": "projects/storage-manager"
+  },
+  "bugs": {
+    "url": "https://github.com/Felipe-Marulanda/Project-Store-Manager/issues"
+  },
+  "files": [
+    "fesm2022",
+    "types",
+    "README.md",
+    "LICENSE"
+  ],
   "peerDependencies": {
     "@angular/common": "^22.2.0",
     "@angular/core": "^22.2.0"
